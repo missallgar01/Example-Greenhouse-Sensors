@@ -1,0 +1,67 @@
+<!doctype html>
+    <head>
+    <!-- Custom styles for this template -->
+        <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+        <title>Live</title>
+
+    </head>
+<body>
+    <img src="{{ url_for('static', filename='images/logo.png') }}"/>
+
+    <div class="topnav">
+        <a class="nav-link active" href="{{ url_for('index')}}">Home</a>
+        <a class="nav-link active" href="{{ url_for('live')}}">Live</a>
+    </div>
+
+    <div class="content">
+        <h1> Live </h1>
+
+        <button onclick="start();">Start</button>
+
+        <table>
+        <tr>
+        <th> Zone 1</th>
+        <th> Zone 2 </th>
+
+        </tr>
+        <tr>
+        <td id="zone1" ></td>
+        <td id="zone2"></td>
+    </tr>
+    </table>
+
+        <h1> Show Map </h1>
+    <img id = 'image' src=""/>
+
+  <script>
+     function update(){
+            //Fetch is a command to make a HTTP request
+            fetch("/update").then(function(response){
+                return response.json();
+                
+            }).then (function(data){
+                    console.log(data);
+
+                    document.getElementById("zone1").innerText = data['zone1'];
+                    document.getElementById("zone2").innerText = data['zone2'];
+                    document.getElementById("image").src = data['imgSrc']+'?t='+ new Date().getTime();
+                }).catch(function(err){
+                    console.log(err.message);
+                });
+        }
+    function start(){
+      setInterval(update, 1000);
+    }
+
+    </script>
+
+
+
+    </div>
+
+    <div class="footer">
+
+    </div>
+</body>
+</html>
+ 
